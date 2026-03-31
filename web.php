@@ -1,0 +1,1 @@
+Route::get('/menu', [CartController::class, 'showMenu'])->name('menu');
