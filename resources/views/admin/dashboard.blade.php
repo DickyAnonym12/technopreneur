@@ -33,18 +33,7 @@
                 </div>
             </div>
 
-            {{-- Total Pelanggan Card --}}
-            <div class="col-12 col-sm-6 col-xl-4 mb-4">
-                <div class="card border-0 shadow h-100 text-center">
-                    <div class="card-body">
-                        <div class="icon-shape icon-shape-success rounded mb-3">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                        <h2 class="h5">Total User</h2>
-                        <h3 class="fw-extrabold mb-2" id="pelanggan-count">{{ $totalUser ?? 0 }}</h3>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 
@@ -52,8 +41,8 @@
     <div class="col-12 col-md-4 mb-4" style="height: 100%;">
         <div class="card border-0 shadow h-100 text-center">
             <div class="card-body">
-                <h2 class="fs-5 fw-bold mb-1">User Profile</h2>
-                <img class="avatar rounded-circle mb-3" alt="Image placeholder" style="width: 100px; height: 100px;" 
+                <h2 class="fs-5 fw-bold mb-1">Admin Profile</h2>
+                <img class="avatar rounded-circle mb-3" alt="Image placeholder" style="width: 100px; height: 100px;"
                 src="{{ Auth::check() ? (Auth::user()->foto_profile ? asset('photo_profile/' . Auth::user()->foto_profile) : asset('default-profile.png')) : asset('default-profile.png') }}">
                 <h4 class="h3">{{ Auth::user()->name }}</h4>
                 <p class="text-muted">{{ Auth::user()->role }}</p>

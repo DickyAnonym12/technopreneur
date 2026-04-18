@@ -70,7 +70,7 @@ https://templatemo.com/tm-558-klassy-cafe
             justify-content: center;
             align-items: center;
             padding: 40px;
-            background-color: #2C4670;
+            background-color: #1a3969;
             border-radius: 25px;
             position: relative;
             width: 100%;
@@ -160,7 +160,7 @@ https://templatemo.com/tm-558-klassy-cafe
         .product-price {
             font-size: 1.2rem;
             font-weight: bold;
-            color: #2C4670;
+            color: #1a3969;
             margin-bottom: 15px;
         }
 
@@ -176,7 +176,7 @@ https://templatemo.com/tm-558-klassy-cafe
             width: 100%;
             padding: 12px;
             font-size: 1rem;
-            background-color: #2C4670;
+            background-color: #1a3969;
             color: white;
             border: none;
             border-radius: 6px;
@@ -185,7 +185,7 @@ https://templatemo.com/tm-558-klassy-cafe
         }
 
         .buy-button:hover {
-            background-color: #2C4670;
+            background-color: #1a3969;
         }
 
         .buy-button.disabled {
@@ -214,7 +214,7 @@ https://templatemo.com/tm-558-klassy-cafe
         /* Scroll Buttons */
         .scroll-left,
         .scroll-right {
-            background-color: #2C4670;
+            background-color: #1a3969;
             color: white;
             border: none;
             border-radius: 50%;
@@ -239,7 +239,7 @@ https://templatemo.com/tm-558-klassy-cafe
 
         .scroll-left:hover,
         .scroll-right:hover {
-            background-color: #2C4670;
+            background-color: #1a3969;
         }
 
         /* Responsive adjustments */
@@ -359,8 +359,7 @@ https://templatemo.com/tm-558-klassy-cafe
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
                         <a href="index.html" class="logo">
-                            <img src="assets/images/Blura.png" alt="LOGO KONYAte"
-                                style="max-height: 100px; width: auto;">
+                            <img src="assets/images/Blura.png" alt="LOGO KONYAte">
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
@@ -380,8 +379,8 @@ https://templatemo.com/tm-558-klassy-cafe
                             @if (Route::has('login'))
                                 @auth
                                     @if (Auth::user()->usertype == '1')
-                                        {{-- Cek jika user adalah admin --}}
-                                        <li>
+                                        Cek jika user adalah admin
+                                         <li>
                                             <a href="{{ url('/dashboard') }}"
                                                 class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
                                                 Dashboard
@@ -422,7 +421,7 @@ https://templatemo.com/tm-558-klassy-cafe
                                         </li>
                                     @endif
                                 @endauth
-                            @endif
+                            @endif 
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -455,8 +454,7 @@ https://templatemo.com/tm-558-klassy-cafe
                 </div>
                 <div class="col-lg-4 text-center">
                     <div class="logo">
-                        <a href="index.html"><img src="assets/images/Blura.png" alt=""
-                                style="max-height: 100px; width: auto;"></a>
+                        <a href="index.html"><img src="assets/images/Blura.png" alt="Blura"></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-12">

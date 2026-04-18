@@ -3,18 +3,152 @@
 @section('title', 'Keranjang Belanja')
 
 @section('content')
-<!DOCTYPE html>
-<html>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="cart-header">
+                    <h2><i class="fa fa-shopping-cart"></i> Shopping Cart</h2>
+                </div>
 
-<head>
-    <title>Cart</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show">
+                        {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        {{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="mb-3">Tambah Produk</h5>
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-7">
+                                <label for="product-select" class="form-label">Pilih Produk</label>
+                                <select id="product-select" class="form-control">
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->Id_minuman }}">
+                                            {{ $product->nama_minuman }} - Rp
+                                            {{ number_format($product->price, 0, ',', '.') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="add-product-button" class="btn btn-primary w-100">Tambah Produk</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button id="go-menu-button" class="btn btn-secondary w-100">Lihat Menu</button>
+                            </div>
+                        </div>
+                        @if ($products->isEmpty())
+                            <p class="text-muted mt-3 mb-0">Tidak ada produk tersedia untuk ditambahkan.</p>
+                        @endif
+                    </div>
+                </div>
+
+                @if (session('cart') && count(session('cart')) > 0)
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="40%">Product</th>
+                                    <th width="15%">Price</th>
+                                    <th width="15%">Quantity</th>
+                                    <th width="20%">Subtotal</th>
+                                    <th width="10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php $total = 0 @endphp
+                                @foreach (session('cart') as $id => $details)
+                                    @php $total += $details['price'] * $details['quantity'] @endphp
+                                    <tr data-id="{{ $details['id'] }}">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="{{ asset('gambar/' . $details['gambar']) }}"
+                                                    class="product-img mr-3" alt="{{ $details['nama_minuman'] }}">
+                                                <h5 class="product-name">{{ $details['nama_minuman'] }}</h5>
+                                            </div>
+                                        </td>
+                                        <td class="price" data-price="{{ $details['price'] }}">
+                                            Rp {{ number_format($details['price'], 0, ',', '.') }}
+                                        </td>
+                                        <td>
+                                            <input type="number" value="{{ $details['quantity'] }}"
+                                                class="form-control quantity-input update-cart" min="1">
+                                        </td>
+                                        <td class="subtotal">
+                                            Rp {{ number_format($details['price'] * $details['quantity'], 0, ',', '.') }}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm btn-remove remove-from-cart">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-end mb-4">
+                        <h5>Total: <strong class="total-price">Rp {{ number_format($total, 0, ',', '.') }}</strong></h5>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="mb-3">Upload Bukti Pembayaran</h5>
+                            <form method="POST" action="{{ route('cart.upload.proof') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-5">
+                                        <label for="name" class="form-label">Nama</label>
+                                        <input id="name" type="text" name="name" value="{{ old('name') }}"
+                                            class="form-control" required>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label for="payment_proof" class="form-label">Bukti Pembayaran</label>
+                                        <input id="payment_proof" type="file" name="payment_proof" class="form-control"
+                                            required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-success w-100">
+                                            <i class="fa fa-upload"></i> Upload Bukti
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-info whatsapp-button mt-3" onclick="openWhatsApp()">
+                        <i class="fa fa-whatsapp"></i> Bayar via WhatsApp
+                    </button>
+                @else
+                    <div class="empty-cart">
+                        <h4>Keranjang Anda kosong.</h4>
+                        <p>Tambahkan produk melalui pilihan di atas atau kembali ke menu untuk memilih minuman.</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
 
     <style>
         .cart-header {
@@ -59,16 +193,6 @@
             color: #28a745;
         }
 
-        .total-row {
-            font-size: 1.2em;
-            background-color: #f8f9fa;
-        }
-
-        .btn-remove {
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-
         .cart-actions {
             margin-top: 20px;
             padding-top: 20px;
@@ -85,254 +209,112 @@
             border-radius: 8px;
         }
     </style>
-</head>
 
-<body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-                <div class="cart-header">
-                    <h2><i class="fa fa-shopping-cart"></i> Shopping Cart</h2>
-                </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-                @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show">
-                    {{ session('success') }}
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                </div>
-                @endif
+    <script type="text/javascript">
+        function formatRupiah(angka) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(angka);
+        }
 
-                @if(session('cart') && count(session('cart')) > 0)
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th width="40%">Product</th>
-                                <th width="15%">Price</th>
-                                <th width="15%">Quantity</th>
-                                <th width="20%">Subtotal</th>
-                                <th width="10%"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php $total = 0 @endphp
-                            @foreach(session('cart') as $id => $details)
-                            @php $total += $details['price'] * $details['quantity'] @endphp
-                            <tr data-id="{{ $details['id'] }}">
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('gambar/' . $details['gambar']) }}"
-                                            class="product-img mr-3">
-                                        <h5 class="product-name">{{ $details['nama_minuman'] }}</h5>
-                                    </div>
-                                </td>
-                                <td class="price" data-price="{{ $details['price'] }}">
-                                    Rp {{ number_format($details['price'], 0, ',', '.') }}
-                                </td>
-                                <td>
-                                    <input type="number"
-                                        value="{{ $details['quantity'] }}"
-                                        class="form-control quantity-input update-cart"
-                                        min="1">
-                                </td>
-                                <td class="subtotal">
-                                    Rp {{ number_format($details['price'] * $details['quantity'], 0, ',', '.') }}
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm btn-remove remove-from-cart">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+        function updateSubtotal(row) {
+            const quantity = parseInt(row.find('.quantity-input').val());
+            const price = parseInt(row.find('.price').data('price'));
+            const subtotal = quantity * price;
+            row.find('.subtotal').text(formatRupiah(subtotal));
 
-                <button class="btn btn-success pay-button mt-3"
-                    data-total="{{ array_sum(array_map(function($item) {
-                            return $item['price'] * $item['quantity'];
-                        }, session('cart', [])) ) }}">
-                    <i class="fa fa-credit-card"></i> Bayar
-                </button>
-                <button class="btn btn-info whatsapp-button mt-3"
-                    onclick="openWhatsApp()">
-                    <i class="fa fa-whatsapp"></i> Bayar via WhatsApp
-                </button>
-                @else
-                <div class="empty-cart">
-                    <h4>Your cart is empty.</h4>
-                </div>
-                @endif
-            </div>
-        </div>
-
-        <script type="text/javascript">
-            function formatRupiah(angka) {
-                return 'Rp ' + new Intl.NumberFormat('id-ID').format(angka);
-            }
-
-            function updateSubtotal(row) {
-                const quantity = parseInt(row.find('.quantity-input').val());
-                const price = parseInt(row.find('.price').data('price'));
-                const subtotal = quantity * price;
-                row.find('.subtotal').text(formatRupiah(subtotal));
-
-                // Update total
-                let total = 0;
-                $('.subtotal').each(function() {
-                    const subtotalText = $(this).text().replace('Rp ', '').replace(/\./g, '');
-                    total += parseInt(subtotalText);
-                });
-                $('.total-price strong').text(formatRupiah(total));
-            }
-
-            $(".update-cart").change(function(e) {
-                e.preventDefault();
-                var ele = $(this);
-                var row = ele.closest('tr');
-
-                // Update subtotal immediately for better UX
-                updateSubtotal(row);
-
-                $.ajax({
-                    url: '{{ route('update.cart') }}', // Ensure this matches the defined route
-                    method: "patch",
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id: row.attr("data-id"),
-                        quantity: ele.val()
-                    },
-                    success: function(response) {
-                        console.log(response); // Log the response for debugging
-                        if (response.success) {
-                            // Optional: show success message without page reload
-                            $('.alert-success').remove();
-                            $('.cart-header').after(
-                                '<div class="alert alert-success alert-dismissible fade show">' +
-                                'Cart updated successfully' +
-                                '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                                '</div>'
-                            );
-                        } else {
-                            // Handle error if 'price' is not defined
-                            console.error('Error: ', response.message);
-                        }
-                    },
-                    error: function(xhr) {
-                        console.error('AJAX Error:', xhr.responseText);
-                    }
-                });
+            let total = 0;
+            $('.subtotal').each(function() {
+                const subtotalText = $(this).text().replace('Rp ', '').replace(/\./g, '');
+                total += parseInt(subtotalText);
             });
+            $('.total-price').text(formatRupiah(total));
+        }
 
-            $(".remove-from-cart").click(function(e) {
-                e.preventDefault();
-                var ele = $(this);
-                if (confirm("Are you sure want to remove?")) {
-                    $.ajax({
-                        url: '{{ route('remove.from.cart') }}', // Ensure this matches the defined route
-                        method: "DELETE",
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            id: ele.parents("tr").attr("data-id")
-                        },
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
+        $(document).on('change', '.update-cart', function(e) {
+            e.preventDefault();
+            var ele = $(this);
+            var row = ele.closest('tr');
+
+            updateSubtotal(row);
+
+            $.ajax({
+                url: '{{ route('update.cart') }}',
+                method: 'patch',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: row.attr('data-id'),
+                    quantity: ele.val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('.alert-success').remove();
+                        $('.cart-header').after(
+                            '<div class="alert alert-success alert-dismissible fade show">Cart updated successfully<button type="button" class="close" data-dismiss="alert">&times;</button></div>'
+                        );
+                    }
+                },
+                error: function(xhr) {
+                    console.error('AJAX Error:', xhr.responseText);
                 }
             });
-        </script>
-        <script>
-            $(document).ready(function() {
-                $('.pay-button').on('click', function(e) {
-                    e.preventDefault();
-                    var total = $(this).data('total');
-                    console.log('Total amount:', total);
+        });
 
-                    // Tampilkan loading
-                    Swal.fire({
-                        title: 'Memproses pembayaran...',
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-
-                    $.ajax({
-                        url: "{{ route('payment.pay') }}",
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        data: {
-                            amount: total,
-                            price: total,
-                        },
-                        success: function(response) {
-                            console.log('Response from server:', response);
-                            Swal.close();
-
-                            // Pastikan Token ada
-                            if (!response.token) {
-                                Swal.fire("Gagal!", "Token pembayaran tidak valid.", "error");
-                                return;
-                            }
-
-                            // Trigger Snap popup
-                            snap.pay(response.token, {
-                                onSuccess: function(result) {
-                                    Swal.fire({
-                                        title: "Berhasil!",
-                                        text: "Pembayaran berhasil dilakukan.",
-                                        icon: "success"
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            window.location.reload();
-                                        }
-                                    });
-                                },
-                                onPending: function(result) {
-                                    Swal.fire("Menunggu!", "Pembayaran sedang menunggu konfirmasi.", "info");
-                                },
-                                onError: function(result) {
-                                    Swal.fire("Gagal!", "Terjadi kesalahan saat melakukan pembayaran.", "error");
-                                },
-                                onClose: function() {
-                                    Swal.fire("Info!", "Pembayaran dibatalkan.", "info");
-                                }
-                            });
-                        },
-                        error: function(xhr) {
-                            console.error('Error:', xhr.responseText);
-                        }
-                    });
+        $(document).on('click', '.remove-from-cart', function(e) {
+            e.preventDefault();
+            var ele = $(this);
+            if (confirm('Are you sure want to remove?')) {
+                $.ajax({
+                    url: '{{ route('remove.from.cart') }}',
+                    method: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: ele.parents('tr').attr('data-id')
+                    },
+                    success: function(response) {
+                        window.location.reload();
+                    }
                 });
-            });
-        </script>
-        <script type="text/javascript">
-            function openWhatsApp() {
-                const total = $('.pay-button').data('total');
-                let message = `Halo, saya ingin melakukan pembayaran untuk pesanan saya dengan total: Rp ${total}.\n\nRincian Pembelian:\n`;
-
-                // Loop through each item in the cart to create the purchase details
-                $('tbody tr').each(function() {
-                    const productName = $(this).find('.product-name').text();
-                    const quantity = $(this).find('.quantity-input').val();
-                    const price = $(this).find('.price').data('price');
-                    const subtotal = price * quantity;
-                    message += `${productName} - Jumlah: ${quantity}, Harga: Rp ${price}, Subtotal: Rp ${subtotal}\n`;
-                });
-
-                // Add total price to the message
-                message += `\nTotal Harga: Rp ${total}`;
-
-                const phoneNumber = '6288270899874'; // Ganti dengan nomor WhatsApp Anda
-                const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-                window.open(url, '_blank');
             }
-        </script>
-</body>
+        });
 
-</html>
+        $('#add-product-button').on('click', function(e) {
+            e.preventDefault();
+            var productId = $('#product-select').val();
+            if (productId) {
+                window.location.href = '{{ url('add-to-cart') }}/' + productId;
+            }
+        });
+
+        $('#go-menu-button').on('click', function(e) {
+            e.preventDefault();
+            window.location.href = '{{ route('menu') }}';
+        });
+
+        function openWhatsApp() {
+            const total = $('.total-price').text().replace(/[^0-9]/g, '');
+            let message = `Halo, saya ingin melakukan pembayaran untuk pesanan saya dengan total: Rp ${total}.
+
+Rincian Pembelian:
+`;
+
+            $('tbody tr').each(function() {
+                const productName = $(this).find('.product-name').text();
+                const quantity = $(this).find('.quantity-input').val();
+                const price = $(this).find('.price').data('price');
+                const subtotal = price * quantity;
+                message += `${productName} - Jumlah: ${quantity}, Harga: Rp ${price}, Subtotal: Rp ${subtotal}
+`;
+            });
+
+            message += `
+Total Harga: Rp ${total}`;
+            const phoneNumber = '6288270899874';
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    </script>
 @endsection

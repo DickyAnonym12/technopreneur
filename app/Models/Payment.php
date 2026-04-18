@@ -9,11 +9,24 @@ class Payment extends Model
 {
     use HasFactory;
 
+    /**
+     * The payments table uses order_id as primary key.
+     * (The id column exists but is nullable in this schema.)
+     */
+    protected $primaryKey = 'order_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'order_id',
+        'action_id',
         'amount',
         'status',
-        'user_id'
+        'user_id',
+        'customer_name',
+        'product_name',
+        'payment_proof',
+        'verification_status'
     ];
 
     protected $casts = [

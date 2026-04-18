@@ -46,6 +46,7 @@ Route::get('pelanggan', [PelangganController::class, 'index'])->name('pelanggan.
 
 Route::get('cart', [CartController::class, 'cart'])->name('cart');
 Route::get('add-to-cart/{id}', [CartController::class, 'addToCart'])->name('add.to.cart');
+Route::post('cart/upload-proof', [CartController::class, 'uploadProof'])->name('cart.upload.proof');
 Route::delete('remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
 Route::patch('/cart/update', [CartController::class, 'updateCart'])->name('update.cart');
 
@@ -81,6 +82,10 @@ Route::group(['middleware' => ['checkrole:admin']], function () {
     Route::get('slideshow/{id}/edit', [SlideshowController::class, 'edit'])->name('slideshow.edit');
     Route::post('slideshow/{id}/update', [SlideshowController::class, 'update'])->name('slideshow.update');
     Route::post('slideshow/{id}/destroy', [SlideshowController::class, 'destroy'])->name('slideshow.destroy');
+
+    Route::get('pemesanan', [PaymentController::class, 'orders'])->name('pemesanan.list');
+    Route::post('pemesanan/{action_id}/accept', [PaymentController::class, 'acceptOrder'])->name('pemesanan.accept');
+    Route::post('pemesanan/{action_id}/reject', [PaymentController::class, 'rejectOrder'])->name('pemesanan.reject');
 });
 // Route untuk guest (belum login)
 Route::middleware('guest')->group(function () {
@@ -91,13 +96,11 @@ Route::middleware('guest')->group(function () {
 
 // Route untuk user yang sudah login
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Route lainnya yang memerlukan autentikasi
     Route::get('/mitra', [MitraController::class, 'index'])->name('mitra.list');
-     // ... route lainnya ...
+    // ... route lainnya ...
 
     // Route untuk logout
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
@@ -105,12 +108,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::post('/payment/pay', [PaymentController::class, 'process'])->name('payment.pay');
 Route::post('/payment/pay', [PaymentController::class, 'pay'])->name('payment.pay');
-Route::post('/payment/update', [PaymentController::class, 'updatePaymentStatus'])->name('payment.update');
 Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
 Route::post('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 Route::post('/payment/snap', [PaymentController::class, 'getSnapToken'])->name('payment.snap');
 Route::post('/payment/update', [PaymentController::class, 'updatePaymentStatus'])->name('payment.update');
-
-

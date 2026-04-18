@@ -46,6 +46,38 @@
             text-align: center;
             position: relative;
         }
+
+        /* Blura: samakan biru sidebar & top bar mobile dengan logo (#1a3969) */
+        #sidebarMenu.sidebar {
+            background-color: #1a3969 !important;
+        }
+
+        nav.navbar.navbar-theme-primary.d-lg-none {
+            background-color: #1a3969 !important;
+        }
+
+        #sidebarMenu .nav-item.active>.nav-link {
+            color: #fff !important;
+            background-color: rgba(255, 255, 255, 0.14) !important;
+        }
+
+        #sidebarMenu .nav-item .nav-link:hover {
+            color: #fff !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        #sidebarMenu .nav-link .sidebar-icon {
+            color: rgba(255, 255, 255, 0.82) !important;
+        }
+
+        #sidebarMenu .sidebar-logo-img {
+            display: block;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            max-height: 88px;
+            margin: 0 auto;
+        }
     </style>
 
 </head>
@@ -101,12 +133,10 @@
                 </div>
             </div>
             <ul class="nav flex-column pt-3 pt-md-0">
-                <li class="nav-item">
-                    <span class="sidebar-icon">
-                        <img src="{{ asset('assets/images/Blura.png') }}" height="169" width="169"
-                            alt="Konya Logo">
-                    </span>
-                    </a>
+                <li class="nav-item pt-1 pb-2">
+                    <div class="sidebar-icon d-block text-center px-1">
+                        <img src="{{ asset('assets/images/Blura.png') }}" class="sidebar-logo-img" alt="Blura Logo">
+                    </div>
                 </li>
                 <hr class="my-2">
                 <li class="nav-item {{ request()->is('dashboard*') ? 'active' : '' }}">
@@ -121,16 +151,19 @@
                     </a>
                 </li>
                 <hr class="my-2">
-                <li class="nav-item  {{ request()->is('pelanggan*') ? 'active' : '' }}  ">
-                    <a href="{{ route('pelanggan.list') }}" class="nav-link">
+                <li class="nav-item  {{ request()->is('pemesanan*') ? 'active' : '' }} ">
+                    <a href="{{ route('pemesanan.list') }}" class="nav-link">
                         <span class="sidebar-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                                fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
                                 <path
-                                    d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4" />
+                                    d="M1.5 1a.5.5 0 0 0 0 1H2v12.5a.5.5 0 0 0 .757.429L4.5 13.5l1.743 1.429A.5.5 0 0 0 7 14.5V2h.5a.5.5 0 0 0 0-1h-6z" />
+                                <path
+                                    d="M8 2v12.5a.5.5 0 0 0 .757.429L10.5 13.5l1.743 1.429A.5.5 0 0 0 13 14.5V2h.5a.5.5 0 0 0 0-1h-6z" />
+                                <path d="M3 4.5h10v1H3v-1zm0 2.5h10v1H3v-1zm0 2.5h10v1H3v-1z" />
                             </svg>
                         </span>
-                        <span class="sidebar-text">Pelanggan</span>
+                        <span class="sidebar-text">Pemesanan</span>
                     </a>
                 </li>
                 <hr class="my-2">
@@ -288,11 +321,11 @@
     </main>
 
     <!-- Core -->
-    <script src="../../vendor/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{ asset('asset-admin/vendor/@popperjs/core/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ asset('asset-admin/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
     <!-- Vendor JS -->
-    <script src="../../vendor/onscreen/dist/on-screen.umd.min.js"></script>
+    <script src="{{ asset('asset-admin/vendor/onscreen/dist/on-screen.umd.min.js') }}"></script>
 </body>
 
 </html>

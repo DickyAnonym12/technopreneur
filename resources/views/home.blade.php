@@ -104,17 +104,12 @@
                             <p class="product-description">{{ $product->deskripsi }}</p>
                             <h3 class="product-price">Rp {{ number_format($product->price, 0, ',', '.') }}</h3>
 
-                            @auth
-                                <a href="{{ route('add.to.cart', ['id' => $product->Id_minuman]) }}"
-                                    class="buy-button text-center">
-                                    Beli Sekarang
-                                </a>
-                            @else
-                                <button class="buy-button disabled" onclick="window.location.href='{{ route('login') }}';"
-                                    style="background-color: #6c757d; cursor: pointer;">
-                                    Login untuk Membeli
-                                </button>
-                            @endauth
+
+                            <a href="{{ route('add.to.cart', ['id' => $product->Id_minuman]) }}"
+                                class="buy-button text-center">
+                                Beli Sekarang
+                            </a>
+
                         </div>
                     </div>
                 @endforeach

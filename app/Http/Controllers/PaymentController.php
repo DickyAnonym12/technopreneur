@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Cart;
 use App\Models\TambahMinuman;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Exception;
@@ -34,20 +35,21 @@ class PaymentController extends Controller
             // Konversi amount ke integer
             $amount = (int) $request->amount;
 
-            $orderId = 'ORDER-' . time();
+            $orderId = 'ORDER-' . Str::uuid()->toString();
 
-            // Ambil informasi pengguna
+            // Ambil informasi pengguna, atau gunakan data tamu jika belum login
             $user = auth()->user();
-            if (!$user) {
-                throw new \Exception('User not authenticated.');
-            }
+            $customerName = $user ? $user->name : ($request->input('name') ?: 'Tamu');
+            $customerEmail = $user ? $user->email : ($request->input('email') ?: 'guest@example.com');
+            $userId = $user ? $user->id : null;
 
             // Simpan informasi pembayaran
             $payment = Payment::create([
                 'order_id' => $orderId,
+                'action_id' => (string) Str::uuid(),
                 'amount' => $amount,
                 'status' => 'pending',
-                'user_id' => $user->id
+                'user_id' => $userId
             ]);
 
             $transactionDetails = [
@@ -58,8 +60,8 @@ class PaymentController extends Controller
             $payload = [
                 'transaction_details' => $transactionDetails,
                 'customer_details' => [
-                    'name' => $user->name,
-                    'email' => $user->email
+                    'name' => $customerName,
+                    'email' => $customerEmail
                 ]
             ];
 
@@ -146,8 +148,11 @@ class PaymentController extends Controller
 
             $amount = 0;
             $itemDetails = [];
-            $user = $this->getAuthenticatedUser();
-            $orderId = 'ORDER-' . time();
+            $user = auth()->user();
+            $customerName = $user ? $user->name : ($request->input('name') ?: 'Tamu');
+            $customerEmail = $user ? $user->email : ($request->input('email') ?: 'guest@example.com');
+            $userId = $user ? $user->id : null;
+            $orderId = 'ORDER-' . Str::uuid()->toString();
 
             foreach ($cart as $productId => $item) {
                 // Ensure 'id' is set correctly
@@ -159,10 +164,10 @@ class PaymentController extends Controller
                 $amount += $itemAmount;
 
                 $itemDetails[] = [
-                    'Id_minuman' => $item['id'],
+                    'id' => $item['id'],
                     'price' => $item['price'],
                     'quantity' => $item['quantity'],
-                    'nama_minuman' => $item['nama_minuman'],
+                    'name' => $item['nama_minuman'],
                 ];
             }
 
@@ -172,9 +177,10 @@ class PaymentController extends Controller
 
             $payment = Payment::create([
                 'order_id' => $orderId,
+                'action_id' => (string) Str::uuid(),
                 'amount' => $amount,
                 'status' => 'pending',
-                'user_id' => $user->id
+                'user_id' => $userId
             ]);
 
             $payload = [
@@ -183,8 +189,8 @@ class PaymentController extends Controller
                     'gross_amount' => $amount,
                 ],
                 'customer_details' => [
-                    'name' => $user->name,
-                    'email' => $user->email,
+                    'name' => $customerName,
+                    'email' => $customerEmail,
                 ],
                 'item_details' => $itemDetails,
             ];
@@ -213,7 +219,7 @@ class PaymentController extends Controller
         \Midtrans\Config::$isSanitized = true;
         \Midtrans\Config::$is3ds = true;
 
-        $orderId = 'ORDER-' . time();
+        $orderId = 'ORDER-' . Str::uuid()->toString();
 
         // Siapkan item details
         $items = [];
@@ -226,6 +232,9 @@ class PaymentController extends Controller
             ];
         }
 
+        $customerName = auth()->check() ? auth()->user()->name : ($request->input('name') ?: 'Tamu');
+        $customerEmail = auth()->check() ? auth()->user()->email : ($request->input('email') ?: 'guest@example.com');
+
         $params = array(
             'transaction_details' => array(
                 'order_id' => $orderId,
@@ -233,8 +242,8 @@ class PaymentController extends Controller
             ),
             'item_details' => $items,
             'customer_details' => array(
-                'name' => auth()->user()->name,
-                'email' => auth()->user()->email,
+                'name' => $customerName,
+                'email' => $customerEmail,
                 // Tambahkan detail customer lainnya jika ada
             ),
             'enabled_payments' => [
@@ -253,10 +262,11 @@ class PaymentController extends Controller
 
             // Simpan data pembayaran
             Payment::create([
-                'id' => auth()->id(),
                 'order_id' => $orderId,
+                'action_id' => (string) Str::uuid(),
                 'amount' => $request->total,
-                'status' => 'pending'
+                'status' => 'pending',
+                'user_id' => auth()->id(),
             ]);
 
             return response()->json(['snap_token' => $snapToken]);
@@ -279,5 +289,36 @@ class PaymentController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    public function orders()
+    {
+        $payments = Payment::whereNotNull('payment_proof')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('admin.pemesanan.index', compact('payments'));
+    }
+
+    public function acceptOrder($actionId)
+    {
+        $updated = Payment::where('action_id', $actionId)->update([
+            'verification_status' => 'accepted',
+            'status' => 'paid',
+        ]);
+        abort_if($updated !== 1, 404);
+
+        return redirect()->route('pemesanan.list')->with('success', 'Pesanan berhasil diterima.');
+    }
+
+    public function rejectOrder($actionId)
+    {
+        $updated = Payment::where('action_id', $actionId)->update([
+            'verification_status' => 'rejected',
+            'status' => 'failed',
+        ]);
+        abort_if($updated !== 1, 404);
+
+        return redirect()->route('pemesanan.list')->with('success', 'Pesanan berhasil ditolak.');
     }
 }
