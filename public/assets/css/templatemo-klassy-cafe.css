@@ -1144,6 +1144,7 @@ reservation
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 20px; /* Atur nilai sesuai keinginan */
+  overflow: visible;
 }
 
 
@@ -1153,7 +1154,8 @@ reservation
   border-radius: 5px;
   text-align: center;
   /* Give the icon room so it won't be clipped */
-  padding: 60px 0px 20px 0px;
+  padding: 60px 0px 30px 0px; /* naik dari 40px → 60px */
+    margin-top: 20px; /* tambah margin atas */
 }
 
 #reservation .phone i,
