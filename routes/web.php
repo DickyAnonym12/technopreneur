@@ -84,6 +84,9 @@ Route::group(['middleware' => ['checkrole:admin']], function () {
     Route::post('slideshow/{id}/destroy', [SlideshowController::class, 'destroy'])->name('slideshow.destroy');
 
     Route::get('pemesanan', [PaymentController::class, 'orders'])->name('pemesanan.list');
+    Route::get('pemesanan/proof/{path}', [PaymentController::class, 'proof'])
+        ->where('path', '.*')
+        ->name('pemesanan.proof');
     Route::post('pemesanan/{action_id}/accept', [PaymentController::class, 'acceptOrder'])->name('pemesanan.accept');
     Route::post('pemesanan/{action_id}/reject', [PaymentController::class, 'rejectOrder'])->name('pemesanan.reject');
 });

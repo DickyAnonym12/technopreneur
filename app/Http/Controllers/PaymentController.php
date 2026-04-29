@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Cart;
 use App\Models\TambahMinuman;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Midtrans\Config;
 use Midtrans\Snap;
@@ -298,6 +299,20 @@ class PaymentController extends Controller
             ->get();
 
         return view('admin.pemesanan.index', compact('payments'));
+    }
+
+    public function proof(string $path)
+    {
+        // Prevent path traversal
+        $path = ltrim($path, '/');
+        abort_if(str_contains($path, '..'), 404);
+
+        // Limit to payment proofs folder
+        abort_unless(str_starts_with($path, 'payment_proofs/'), 404);
+
+        abort_unless(Storage::disk('public')->exists($path), 404);
+
+        return Storage::disk('public')->response($path);
     }
 
     public function acceptOrder($actionId)

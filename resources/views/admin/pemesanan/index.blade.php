@@ -39,7 +39,7 @@
                                             <td>{{ $payment->product_name ?? '-' }}</td>
                                             <td>
                                                 @if ($payment->payment_proof)
-                                                    <a href="{{ asset('storage/' . $payment->payment_proof) }}"
+                                                    <a href="{{ route('pemesanan.proof', ['path' => $payment->payment_proof]) }}"
                                                         target="_blank" class="btn btn-sm btn-outline-primary">
                                                         Lihat Bukti
                                                     </a>
