@@ -30,32 +30,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
     <style>
-        .nav li {
+        /*
+         * IMPORTANT:
+         * Do not override the global `.nav` class (Bootstrap/template uses it for mobile menu).
+         * Scope navbar tweaks to the template header only.
+         */
+        .header-area .main-nav .nav li {
             list-style: none;
         }
 
-        .nav {
-            display: flex;
-            gap: -2px;
-        }
-
-        .nav a {
-            padding: 8px 3px;
+        .header-area .main-nav .nav a {
+            padding: 8px 10px;
             display: inline-block;
             text-decoration: none;
-            color: #000;
         }
 
-        .nav a:hover {
+        .header-area .main-nav .nav a:hover,
+        .header-area .main-nav .nav a.active {
             color: #FF2D20;
         }
 
-        /* =============================================
-           FIX: Active state hanya muncul pada nav item
-           yang sesuai dengan halaman yang sedang dibuka
-        =============================================== */
-        .nav a.active {
-            color: #FF2D20;
+        /* Small-screen: avoid overflow when menu is expanded */
+        @media (max-width: 767px) {
+            .header-area .main-nav .nav a {
+                padding: 12px 15px;
+            }
         }
 
         /* Kontainer untuk menu item dengan scroll horizontal */
@@ -464,6 +463,7 @@
 
     <!-- Plugins -->
     <script src="assets/js/owl-carousel.js"></script>
+    @stack('page-scripts')
     <script>
         const scrollLeftBtn = document.querySelector('.scroll-left');
         const scrollRightBtn = document.querySelector('.scroll-right');

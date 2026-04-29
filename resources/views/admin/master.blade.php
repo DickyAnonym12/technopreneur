@@ -78,6 +78,17 @@
             max-height: 88px;
             margin: 0 auto;
         }
+
+        /* Mobile-friendly tables */
+        .table-responsive {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 576px) {
+            .table-responsive table {
+                min-width: 720px; /* allow horizontal scroll on small screens */
+            }
+        }
     </style>
 
 </head>

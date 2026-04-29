@@ -158,7 +158,10 @@
 
                 <div class="col-lg-6">
 
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.627812224595!2d101.44184527496479!3d0.5599116994346172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5ab4281b3e397%3A0xee489c22626c1714!2sBlura%20Coffee%20Roastery!5e0!3m2!1sen!2sid!4v1777450101994!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> {{-- menambahkan ifrme --}}
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.627812224595!2d101.44184527496479!3d0.5599116994346172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5ab4281b3e397%3A0xee489c22626c1714!2sBlura%20Coffee%20Roastery!5e0!3m2!1sen!2sid!4v1777450101994!5m2!1sen!2sid"
+                        class="w-100" height="450" style="border:0; border-radius: 12px;" allowfullscreen=""
+                        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>

@@ -62,7 +62,7 @@
                                                     class="badge bg-{{ $badge }} text-capitalize">{{ $status }}</span>
                                             </td>
                                             <td class="text-center">
-                                                <div class="d-flex justify-content-center gap-2">
+                                                <div class="d-flex flex-wrap justify-content-center gap-2">
                                                     <button type="button"
                                                         class="btn btn-success btn-sm order-action-button"
                                                         data-bs-toggle="modal" data-bs-target="#orderConfirmModal"

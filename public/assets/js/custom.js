@@ -3,14 +3,24 @@
 	"use strict";
 
 	$(window).scroll(function() {
-	  var scroll = $(window).scrollTop();
-	  var box = $('.header-text').height();
-	  var header = $('header').height();
+	  // Some pages (e.g. Cart) don't have `.header-text`.
+	  // On mobile browsers, tiny scroll/focus changes can trigger repaint and close native selects.
+	  // Only run the background-header toggle on pages that actually have the banner.
+	  if ($('.header-text').length === 0) {
+	    return;
+	  }
 
-	  if (scroll >= box - header) {
-	    $("header").addClass("background-header");
-	  } else {
-	    $("header").removeClass("background-header");
+	  var scroll = $(window).scrollTop();
+	  var box = $('.header-text').height() || 0;
+	  var header = $('header').height() || 0;
+	  var shouldBeBackground = scroll >= (box - header);
+
+	  var $header = $("header");
+	  var isBackground = $header.hasClass("background-header");
+	  if (shouldBeBackground && !isBackground) {
+	    $header.addClass("background-header");
+	  } else if (!shouldBeBackground && isBackground) {
+	    $header.removeClass("background-header");
 	  }
 	});
 	
@@ -164,7 +174,20 @@
 	    var scrollPos = $(document).scrollTop();
 	    $('.nav a').each(function () {
 	        var currLink = $(this);
-	        var refElement = $(currLink.attr("href"));
+			var href = currLink.attr("href") || "";
+			// Support both "#section" and "https://site/#section" hrefs.
+			var hashIndex = href.indexOf('#');
+			if (hashIndex === -1) {
+				return;
+			}
+			var hash = href.substring(hashIndex);
+			if (!hash || hash === '#') {
+				return;
+			}
+	        var refElement = $(hash);
+			if (!refElement.length) {
+				return;
+			}
 	        if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
 	            $('.nav ul li a').removeClass("active");
 	            currLink.addClass("active");

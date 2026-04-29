@@ -208,113 +208,117 @@
         .alert {
             border-radius: 8px;
         }
+
+        /* Mobile: keep select dropdown stable (avoid clipping/stacking issues) */
+        #product-select {
+            position: relative;
+            z-index: 2;
+        }
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @push('page-scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript">
+            function formatRupiah(angka) {
+                return 'Rp ' + new Intl.NumberFormat('id-ID').format(angka);
+            }
 
-    <script type="text/javascript">
-        function formatRupiah(angka) {
-            return 'Rp ' + new Intl.NumberFormat('id-ID').format(angka);
-        }
+            function updateSubtotal(row) {
+                const quantity = parseInt(row.find('.quantity-input').val());
+                const price = parseInt(row.find('.price').data('price'));
+                const subtotal = quantity * price;
+                row.find('.subtotal').text(formatRupiah(subtotal));
 
-        function updateSubtotal(row) {
-            const quantity = parseInt(row.find('.quantity-input').val());
-            const price = parseInt(row.find('.price').data('price'));
-            const subtotal = quantity * price;
-            row.find('.subtotal').text(formatRupiah(subtotal));
+                let total = 0;
+                $('.subtotal').each(function() {
+                    const subtotalText = $(this).text().replace('Rp ', '').replace(/\./g, '');
+                    total += parseInt(subtotalText);
+                });
+                $('.total-price').text(formatRupiah(total));
+            }
 
-            let total = 0;
-            $('.subtotal').each(function() {
-                const subtotalText = $(this).text().replace('Rp ', '').replace(/\./g, '');
-                total += parseInt(subtotalText);
-            });
-            $('.total-price').text(formatRupiah(total));
-        }
+            $(document).on('change', '.update-cart', function(e) {
+                e.preventDefault();
+                var ele = $(this);
+                var row = ele.closest('tr');
 
-        $(document).on('change', '.update-cart', function(e) {
-            e.preventDefault();
-            var ele = $(this);
-            var row = ele.closest('tr');
+                updateSubtotal(row);
 
-            updateSubtotal(row);
-
-            $.ajax({
-                url: '{{ route('update.cart') }}',
-                method: 'patch',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: row.attr('data-id'),
-                    quantity: ele.val()
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('.alert-success').remove();
-                        $('.cart-header').after(
-                            '<div class="alert alert-success alert-dismissible fade show">Cart updated successfully<button type="button" class="close" data-dismiss="alert">&times;</button></div>'
-                        );
-                    }
-                },
-                error: function(xhr) {
-                    console.error('AJAX Error:', xhr.responseText);
-                }
-            });
-        });
-
-        $(document).on('click', '.remove-from-cart', function(e) {
-            e.preventDefault();
-            var ele = $(this);
-            if (confirm('Are you sure want to remove?')) {
                 $.ajax({
-                    url: '{{ route('remove.from.cart') }}',
-                    method: 'DELETE',
+                    url: '{{ route('update.cart') }}',
+                    method: 'patch',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        id: ele.parents('tr').attr('data-id')
+                        id: row.attr('data-id'),
+                        quantity: ele.val()
                     },
                     success: function(response) {
-                        window.location.reload();
+                        if (response.success) {
+                            $('.alert-success').remove();
+                            $('.cart-header').after(
+                                '<div class="alert alert-success alert-dismissible fade show">Cart updated successfully<button type="button" class="close" data-dismiss="alert">&times;</button></div>'
+                            );
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('AJAX Error:', xhr.responseText);
                     }
                 });
-            }
-        });
+            });
 
-        $('#add-product-button').on('click', function(e) {
-            e.preventDefault();
-            var productId = $('#product-select').val();
-            if (productId) {
-                window.location.href = '{{ url('add-to-cart') }}/' + productId;
-            }
-        });
+            $(document).on('click', '.remove-from-cart', function(e) {
+                e.preventDefault();
+                var ele = $(this);
+                if (confirm('Are you sure want to remove?')) {
+                    $.ajax({
+                        url: '{{ route('remove.from.cart') }}',
+                        method: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id: ele.parents('tr').attr('data-id')
+                        },
+                        success: function(response) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
 
-        $('#go-menu-button').on('click', function(e) {
-            e.preventDefault();
-            window.location.href = '{{ route('home') }}#menu';
-        });
+            $('#add-product-button').on('click', function(e) {
+                e.preventDefault();
+                var productId = $('#product-select').val();
+                if (productId) {
+                    window.location.href = '{{ url('add-to-cart') }}/' + productId;
+                }
+            });
 
-        function openWhatsApp() {
-            const total = $('.total-price').text().replace(/[^0-9]/g, '');
-            let message = `Halo, saya ingin melakukan pembayaran untuk pesanan saya dengan total: Rp ${total}.
+            $('#go-menu-button').on('click', function(e) {
+                e.preventDefault();
+                window.location.href = '{{ route('home') }}#menu';
+            });
+
+            function openWhatsApp() {
+                const total = $('.total-price').text().replace(/[^0-9]/g, '');
+                let message = `Halo, saya ingin melakukan pembayaran untuk pesanan saya dengan total: Rp ${total}.
 
 Rincian Pembelian:
 `;
 
-            $('tbody tr').each(function() {
-                const productName = $(this).find('.product-name').text();
-                const quantity = $(this).find('.quantity-input').val();
-                const price = $(this).find('.price').data('price');
-                const subtotal = price * quantity;
-                message += `${productName} - Jumlah: ${quantity}, Harga: Rp ${price}, Subtotal: Rp ${subtotal}
+                $('tbody tr').each(function() {
+                    const productName = $(this).find('.product-name').text();
+                    const quantity = $(this).find('.quantity-input').val();
+                    const price = $(this).find('.price').data('price');
+                    const subtotal = price * quantity;
+                    message += `${productName} - Jumlah: ${quantity}, Harga: Rp ${price}, Subtotal: Rp ${subtotal}
 `;
-            });
+                });
 
-            message += `
+                message += `
 Total Harga: Rp ${total}`;
-            const phoneNumber = '6288270899874';
-            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-        }
-    </script>
+                const phoneNumber = '6288270899874';
+                const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                window.open(url, '_blank');
+            }
+        </script>
+    @endpush
 @endsection
