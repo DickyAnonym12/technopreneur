@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <title>KONYA.ID</title>
+    <title>Blura Coffee Roastery</title>
     <!--
 
 TemplateMo 558 Klassy Cafe
@@ -412,16 +412,16 @@ https://templatemo.com/tm-558-klassy-cafe
                                             Log in
                                         </a>
                                     </li>
-                                    @if (Route::has('register'))
+                                    {{-- @if (Route::has('register'))
                                         <li>
                                             <a href="{{ route('register') }}"
                                                 class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
                                                 Register
                                             </a>
                                         </li>
-                                    @endif
+                                    @endif --}}
                                 @endauth
-                            @endif 
+                            @endif
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>

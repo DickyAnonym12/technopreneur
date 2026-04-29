@@ -53,13 +53,13 @@
                         </p>
                         <div class="row">
                             <div class="col-4">
-                                <img src="assets/images/konya4.png" alt="">
+                                <img src="assets/images/images (4).jpg" alt="">
                             </div>
                             <div class="col-4">
-                                <img src="assets/images/konya5.png" alt="">
+                                <img src="assets/images/Caramel-coffee11.jpg" alt="">
                             </div>
                             <div class="col-4">
-                                <img src="assets/images/konya6.png" alt="">
+                                <img src="assets/images/pistachio-latte-square.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -159,10 +159,7 @@
 
                 <div class="col-lg-6">
 
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.628226236871!2d101.43041807494427!3d0.559302963606842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5ab67b36d1c55%3A0xf7f6ece9361fc150!2sHawaii%20Swalayan%20Rumbai!5e0!3m2!1sen!2sid!4v1733675821597!5m2!1sen!2sid"
-                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.627812224595!2d101.44184527496479!3d0.5599116994346172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5ab4281b3e397%3A0xee489c22626c1714!2sBlura%20Coffee%20Roastery!5e0!3m2!1sen!2sid!4v1777450101994!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
