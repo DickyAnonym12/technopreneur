@@ -15,11 +15,12 @@
     <title>Blura Coffee Roastery</title>
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-    <link rel="stylesheet" href="assets/css/owl-carousel.css">
-    <link rel="stylesheet" href="assets/css/lightbox.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font-awesome.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/css/templatemo-klassy-cafe.css') }}?v={{ @filemtime(public_path('assets/css/templatemo-klassy-cafe.css')) }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/lightbox.css') }}">
     <!-- Owl Carousel CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet"
