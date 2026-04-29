@@ -295,7 +295,8 @@ class PaymentController extends Controller
     public function orders()
     {
         $payments = Payment::whereNotNull('payment_proof')
-            ->orderBy('id', 'desc')
+            ->orderByDesc('created_at')
+            ->orderByDesc('order_id')
             ->get();
 
         return view('admin.pemesanan.index', compact('payments'));
