@@ -13,22 +13,12 @@
         rel="stylesheet">
 
     <title>Blura Coffee Roastery</title>
-    <!--
 
-TemplateMo 558 Klassy Cafe
-
-https://templatemo.com/tm-558-klassy-cafe
-
--->
     <!-- Additional CSS Files -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
-
     <link rel="stylesheet" href="assets/css/templatemo-klassy-cafe.css">
-
     <link rel="stylesheet" href="assets/css/owl-carousel.css">
-
     <link rel="stylesheet" href="assets/css/lightbox.css">
     <!-- Owl Carousel CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
@@ -46,22 +36,25 @@ https://templatemo.com/tm-558-klassy-cafe
         .nav {
             display: flex;
             gap: -2px;
-            /* Atur jarak antar item */
         }
 
         .nav a {
             padding: 8px 3px;
-            /* Atur padding untuk elemen link */
             display: inline-block;
             text-decoration: none;
             color: #000;
         }
 
-
-
         .nav a:hover {
             color: #FF2D20;
-            /* Hover color */
+        }
+
+        /* =============================================
+           FIX: Active state hanya muncul pada nav item
+           yang sesuai dengan halaman yang sedang dibuka
+        =============================================== */
+        .nav a.active {
+            color: #FF2D20;
         }
 
         /* Kontainer untuk menu item dengan scroll horizontal */
@@ -80,7 +73,6 @@ https://templatemo.com/tm-558-klassy-cafe
         .product-container {
             display: flex;
             overflow-x: auto;
-            /* Membuat scroll horizontal */
             gap: 20px;
             padding-bottom: 20px;
             flex-wrap: nowrap;
@@ -89,12 +81,10 @@ https://templatemo.com/tm-558-klassy-cafe
             scroll-behavior: smooth;
         }
 
-        /* Card Produk - Updated Styles */
+        /* Card Produk */
         .product-card {
             flex: 0 0 300px;
-            /* Fixed width instead of percentage */
             min-width: 300px;
-            /* Ensure minimum width */
             margin: 0 15px;
             background-color: white;
             border-radius: 12px;
@@ -102,7 +92,6 @@ https://templatemo.com/tm-558-klassy-cafe
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             height: 450px;
-            /* Fixed height */
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
@@ -117,7 +106,6 @@ https://templatemo.com/tm-558-klassy-cafe
         .product-image {
             width: 100%;
             height: 200px;
-            /* Fixed height for images */
             object-fit: cover;
             border-radius: 12px 12px 0 0;
         }
@@ -137,7 +125,6 @@ https://templatemo.com/tm-558-klassy-cafe
             font-weight: 600;
             color: #333;
             margin-bottom: 10px;
-            /* Limit to 2 lines */
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -149,7 +136,6 @@ https://templatemo.com/tm-558-klassy-cafe
             font-size: 0.9rem;
             color: #666;
             margin-bottom: 15px;
-            /* Limit to 3 lines */
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
@@ -201,14 +187,11 @@ https://templatemo.com/tm-558-klassy-cafe
             padding: 20px 0;
             gap: 20px;
             -ms-overflow-style: none;
-            /* Hide scrollbar IE and Edge */
             scrollbar-width: none;
-            /* Hide scrollbar Firefox */
         }
 
         .product-container::-webkit-scrollbar {
             display: none;
-            /* Hide scrollbar Chrome, Safari and Opera */
         }
 
         /* Scroll Buttons */
@@ -262,11 +245,9 @@ https://templatemo.com/tm-558-klassy-cafe
             }
         }
 
-        /* Media Queries untuk Responsif */
         @media (max-width: 1024px) {
             .product-card {
                 max-width: 250px;
-                /* Membuat produk lebih kecil pada layar lebih kecil */
             }
 
             .product-image {
@@ -281,51 +262,37 @@ https://templatemo.com/tm-558-klassy-cafe
         @media (max-width: 768px) {
             .product-card {
                 max-width: 200px;
-                /* Card lebih kecil di perangkat mobile */
             }
 
             .product-image {
                 height: 150px;
-                /* Gambar lebih kecil pada layar mobile */
             }
-
-
-
-
         }
 
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            /* Pastikan body memiliki tinggi minimum 100vh */
         }
 
         main {
             flex: 1;
-            /* Membuat main mengambil sisa ruang yang tersedia */
         }
 
         #top .main-banner {
             height: 400px;
-            /* Batasi tinggi banner */
             overflow: hidden;
         }
 
         #top .main-banner .img-fill img {
             object-fit: cover;
-            /* Isi area gambar dengan proporsi */
             width: 100%;
-            /* Lebar gambar mengikuti container */
             height: 100%;
-            /* Tinggi gambar mengikuti container */
             max-height: 400px;
-            /* Batas maksimum tinggi gambar */
         }
 
         .Modern-Slider .item {
             height: 400px;
-            /* Sesuaikan tinggi slider dengan banner */
         }
 
         #top .left-content {
@@ -333,7 +300,6 @@ https://templatemo.com/tm-558-klassy-cafe
             align-items: center;
             justify-content: center;
             height: 400px;
-            /* Tinggi sama dengan main-banner */
             text-align: center;
         }
 
@@ -346,11 +312,6 @@ https://templatemo.com/tm-558-klassy-cafe
 
 <body>
 
-    <!-- ***** Preloader Start ***** -->
-
-    <!-- ***** Preloader End ***** -->
-
-
     <!-- ***** Header Area Start ***** -->
     <header class="header-area header-sticky">
         <div class="container">
@@ -358,35 +319,64 @@ https://templatemo.com/tm-558-klassy-cafe
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
+                        <a href="{{ route('home') }}" class="logo">
                             <img src="assets/images/Blura.png" alt="LOGO KONYAte">
                         </a>
                         <!-- ***** Logo End ***** -->
+
                         <!-- ***** Menu Start ***** -->
+                        @php
+                            // Make section links work from any page (e.g. Cart) by routing through home first.
+                            $home    = route('home');
+                            $isHome  = request()->routeIs('home');
+                            $isCart  = request()->routeIs('cart');
+
+                            $linkTop     = $isHome ? '#top'         : ($home . '#top');
+                            $linkAbout   = $isHome ? '#about'       : ($home . '#about');
+                            $linkMenu    = $isHome ? '#menu'        : ($home . '#menu');
+                            $linkContact = $isHome ? '#reservation' : ($home . '#reservation');
+                        @endphp
+
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#about">About</a></li>
-                            <li class="scroll-to-section"><a href="#menu">Menu</a></li>
-                            <li class="scroll-to-section"><a href="#reservation">Contact</a></li>
+                            {{-- Home: aktif hanya jika di halaman home --}}
                             <li class="scroll-to-section">
-                                <a href="{{ route('cart') }}">
+                                <a href="{{ $linkTop }}" class="{{ $isHome ? 'active' : '' }}">Home</a>
+                            </li>
+
+                            <li class="scroll-to-section">
+                                <a href="{{ $linkAbout }}">About</a>
+                            </li>
+
+                            <li class="scroll-to-section">
+                                <a href="{{ $linkMenu }}">Menu</a>
+                            </li>
+
+                            <li class="scroll-to-section">
+                                <a href="{{ $linkContact }}">Contact</a>
+                            </li>
+
+                            {{-- Cart: aktif hanya jika di halaman cart --}}
+                            <li class="scroll-to-section">
+                                <a href="{{ route('cart') }}" class="{{ $isCart ? 'active' : '' }}">
                                     <i class="fa fa-shopping-cart"></i> Cart
                                     <span class="badge badge-pill badge-danger">
                                         {{ count((array) session('cart')) }}
                                     </span>
                                 </a>
                             </li>
+
                             @if (Route::has('login'))
                                 @auth
                                     @if (Auth::user()->usertype == '1')
-                                        Cek jika user adalah admin
-                                         <li>
+                                        {{-- Cek jika user adalah admin --}}
+                                        <li>
                                             <a href="{{ url('/dashboard') }}"
-                                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
+                                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] {{ request()->is('dashboard*') ? 'active' : '' }}">
                                                 Dashboard
                                             </a>
                                         </li>
                                     @endif
+
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown"
                                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -400,7 +390,9 @@ https://templatemo.com/tm-558-klassy-cafe
                                                 <form method="POST" action="{{ route('logout') }}">
                                                     @csrf
                                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                                        onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
+                                                        onclick="event.preventDefault(); this.closest('form').submit();">
+                                                        Logout
+                                                    </a>
                                                 </form>
                                             </li>
                                         </ul>
@@ -412,17 +404,10 @@ https://templatemo.com/tm-558-klassy-cafe
                                             Log in
                                         </a>
                                     </li>
-                                    {{-- @if (Route::has('register'))
-                                        <li>
-                                            <a href="{{ route('register') }}"
-                                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
-                                                Register
-                                            </a>
-                                        </li>
-                                    @endif --}}
                                 @endauth
                             @endif
                         </ul>
+
                         <a class='menu-trigger'>
                             <span>Menu</span>
                         </a>
@@ -483,23 +468,26 @@ https://templatemo.com/tm-558-klassy-cafe
         const scrollRightBtn = document.querySelector('.scroll-right');
         const productContainer = document.querySelector('.product-container');
 
-        function getProductWidth() {
-            return document.querySelector('.product-card').offsetWidth + 20; // 20px margin kanan-kiri
+        if (scrollLeftBtn && scrollRightBtn && productContainer) {
+            function getProductWidth() {
+                const card = document.querySelector('.product-card');
+                return card ? card.offsetWidth + 20 : 320;
+            }
+
+            scrollLeftBtn.addEventListener('click', function () {
+                productContainer.scrollBy({
+                    left: -getProductWidth(),
+                    behavior: 'smooth'
+                });
+            });
+
+            scrollRightBtn.addEventListener('click', function () {
+                productContainer.scrollBy({
+                    left: getProductWidth(),
+                    behavior: 'smooth'
+                });
+            });
         }
-
-        scrollLeftBtn.addEventListener('click', function() {
-            productContainer.scrollBy({
-                left: -getProductWidth(),
-                behavior: 'smooth'
-            });
-        });
-
-        scrollRightBtn.addEventListener('click', function() {
-            productContainer.scrollBy({
-                left: getProductWidth(),
-                behavior: 'smooth'
-            });
-        });
     </script>
 
     <script src="assets/js/accordions.js"></script>
@@ -512,27 +500,25 @@ https://templatemo.com/tm-558-klassy-cafe
     <script src="assets/js/lightbox.js"></script>
     <script src="assets/js/isotope.js"></script>
 
-
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
     <script>
-        $(function() {
+        $(function () {
             var selectedClass = "";
-            $("p").click(function() {
+            $("p").click(function () {
                 selectedClass = $(this).attr("data-rel");
                 $("#portfolio").fadeTo(50, 0.1);
                 $("#portfolio div").not("." + selectedClass).fadeOut();
-                setTimeout(function() {
+                setTimeout(function () {
                     $("." + selectedClass).fadeIn();
                     $("#portfolio").fadeTo(50, 1);
                 }, 500);
-
             });
         });
     </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.dropdown-toggle').dropdown();
         });
     </script>

@@ -291,7 +291,7 @@
 
         $('#go-menu-button').on('click', function(e) {
             e.preventDefault();
-            window.location.href = '{{ route('menu') }}';
+            window.location.href = '{{ route('home') }}#menu';
         });
 
         function openWhatsApp() {

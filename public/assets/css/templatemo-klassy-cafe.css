@@ -1152,7 +1152,8 @@ reservation
   background-color: #f7f7f7;
   border-radius: 5px;
   text-align: center;
-  padding: 0px 0px 20px 0px;
+  /* Give the icon room so it won't be clipped */
+  padding: 40px 0px 20px 0px;
 }
 
 #reservation .phone i,
@@ -1166,7 +1167,7 @@ reservation
   background-color: #1a3969;
   border-radius: 50%;
   font-size: 24px;
-  margin-top: -35px;
+  margin-top: 0px;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
