@@ -7,7 +7,7 @@
 
     <!-- Logo Image -->
     <div class="flex justify-center mt-6">
-        <img src="{{ asset('assets/images/LOGOKONYA.png') }}" alt="Logo" class="w-20 h-20 shadow-lg">
+        <img src="{{ asset('assets/images/Blura.png') }}" alt="Logo" class="w-20 h-20 shadow-lg">
     </div>
 
     <x-auth-session-status class="mb-4" :status="session('status')" />

@@ -216,7 +216,7 @@
                         <span class="sidebar-text">Slideshow</span>
                     </a>
                 </li>
-                
+
                 <hr class="my-2">
                 <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
                     <ul class="flex-column nav">
@@ -295,7 +295,7 @@
             <div class="row">
                 <div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
                     <p class="mb-0 text-center text-lg-start">© <span class="current-year"></span> <a
-                            class="text-primary fw-normal" href="#" target="_blank">Konya</a>
+                            class="text-primary fw-normal" href="#" target="_blank">Blura</a>
                     </p>
                 </div>
                 <div class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
