@@ -28,35 +28,32 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => 'user',
-            'password' => Hash::make($request->password),
-            
-        ]);
-        if ($request->hasFile('foto_profile')) {
-            // Mengatur nama file foto profil
-            $imageName = time() . '.' . $request->file('foto_profile')->extension();
-            // Memindahkan file foto profil ke folder public/profile_photos
-            $request->file('foto_profile')->move(public_path('photo_profile'), $imageName);
-            // Menyimpan nama file foto profil ke dalam database
-            $user->foto_profile = $imageName;
-            $user->save();
-        }
+    $imageName = null;
 
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(route('home', absolute: false));
+    if ($request->hasFile('foto_profile')) {
+        $imageName = time() . '.' . $request->file('foto_profile')->extension();
+        $request->file('foto_profile')->move(public_path('photo_profile'), $imageName);
     }
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'role' => 'user',
+        'password' => Hash::make($request->password),
+        'foto_profile' => $imageName // langsung simpan di sini
+    ]);
+
+    event(new Registered($user));
+    Auth::login($user);
+
+    return redirect(route('home'));
+}
 }

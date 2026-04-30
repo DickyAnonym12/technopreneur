@@ -46,4 +46,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function getFotoProfileUrlAttribute()
+{
+    return $this->foto_profile
+        ? asset('photo_profile/' . $this->foto_profile)
+        : asset('default-profile.png');
+}
 }

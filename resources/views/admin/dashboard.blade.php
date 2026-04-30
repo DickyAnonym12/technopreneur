@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            
+
         </div>
     </div>
 
@@ -42,8 +42,7 @@
         <div class="card border-0 shadow h-100 text-center">
             <div class="card-body">
                 <h2 class="fs-5 fw-bold mb-1">Admin Profile</h2>
-                <img class="avatar rounded-circle mb-3" alt="Image placeholder" style="width: 100px; height: 100px;"
-                src="{{ Auth::check() ? (Auth::user()->foto_profile ? asset('photo_profile/' . Auth::user()->foto_profile) : asset('default-profile.png')) : asset('default-profile.png') }}">
+                <img src="{{ Auth::user()->foto_profile_url }}" class="avatar rounded-circle mb-3" style="width: 100px; height: 100px;">
                 <h4 class="h3">{{ Auth::user()->name }}</h4>
                 <p class="text-muted">{{ Auth::user()->role }}</p>
                 <a href="#" class="btn btn-sm btn-primary">Edit Profile</a>
