@@ -20,7 +20,8 @@
         <div class="row">                                                                           
             <div class="col-md-6 mb-3">
                 <label for="gambar_slideshow" class="form-label">Gambar Slideshow</label>
-                <input type="file" class="form-control" id="gambar_slideshow" name="gambar_slideshow" placeholder="Masukkan gambar slideshow" required>
+                <input type="file" class="form-control" id="gambar_slideshow" name="gambar_slideshow"
+                    accept="image/jpeg,image/png,image/jpg,image/gif" required>
             </div>
         </div>
         <div class="text-left">

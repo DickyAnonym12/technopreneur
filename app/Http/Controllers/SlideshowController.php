@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Slideshow;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SlideshowController extends Controller
 {
@@ -25,12 +24,11 @@ class SlideshowController extends Controller
     {
         // Validasi input dari form
         $request->validate([
-            'gambar_slideshow' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'gambar_slideshow' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         // Membuat objek produk baru
         $Slideshow = new Slideshow();
-        $Slideshow->gambar_slideshow = $request->gambar_slideshow;
 
         // Menyimpan gambar jika ada
         if ($request->hasFile('gambar_slideshow')) {
@@ -61,17 +59,20 @@ class SlideshowController extends Controller
 
         // Validasi data input
         $request->validate([
-            'gambar_slideshow' => 'required|image|mimes:jpeg,png,jpg,gif', // Validasi gambar
+            // Saat edit, gambar boleh tidak diganti.
+            'gambar_slideshow' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
-        // Data yang akan diupdate
-        $data = $request->only(['gambar_slideshow']);
+        $data = [];
 
         // Handle image upload jika ada file baru
-        if ($request->hasFile('gambar')) {
+        if ($request->hasFile('gambar_slideshow')) {
             // Hapus gambar lama jika ada
             if ($slideshow->gambar_slideshow) {
-                Storage::delete('public/gambar/' . $slideshow->gambar_slideshow);
+                $oldPath = public_path('gambar/' . $slideshow->gambar_slideshow);
+                if (is_file($oldPath)) {
+                    @unlink($oldPath);
+                }
             }
 
             // Simpan gambar baru dan ambil namanya
@@ -82,7 +83,9 @@ class SlideshowController extends Controller
 
 
         // Perbarui data produk di database
-        $slideshow->update($data);
+        if (!empty($data)) {
+            $slideshow->update($data);
+        }
         
         // Redirect dengan pesan sukses
         return redirect()->route('slideshow.list')->with('success', 'Data berhasil diperbarui!');
@@ -93,7 +96,10 @@ class SlideshowController extends Controller
     {
         $slideshow = Slideshow::findOrFail($id);
         if ($slideshow->gambar_slideshow) {
-            Storage::delete('public/gambar/' . $slideshow->gambar_slideshow);
+            $path = public_path('gambar/' . $slideshow->gambar_slideshow);
+            if (is_file($path)) {
+                @unlink($path);
+            }
         }
         $slideshow->delete();
         return redirect()->route('slideshow.list')->with('success', 'Slideshow deleted successfully');
